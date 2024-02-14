@@ -1,0 +1,31 @@
+.label {
+    -fx-text-fill: rgb(255, 51, 0);
+    -fx-effect: dropshadow(three-pass-box, rgb(255, 31, 15), 25, 0, 0, 0);
+    -fx-transition: -fx-border-color 0.5s, -fx-border-width, 0.5s;
+}
+
+.button {
+    -fx-background-color: transparent;
+    -fx-text-fill: magenta;
+    -fx-font-size: 15px;
+    -fx-background-radius: 11px;
+    -fx-border-width: 2px;
+    -fx-border-color: transparent;
+}
+
+.button:focused {
+    -fx-border-color: rgb(0, 255, 0);
+    -fx-border-width: 2px;
+    -fx-border-radius: 13px;
+    -fx-effect: dropshadow(three-pass-box, rgb(0, 255, 0), 20, 0, 0, 0);
+    -fx-transition: -fx-border-color 0.5s, -fx-border-width, 0.5s;
+}
+
+.button:hover{
+    -fx-cursor:hand;
+    -fx-effect: dropshadow(three-pass-box, magenta, 20, 0, 0, 0);
+    -fx-transition: -fx-border-color 0.5s, -fx-border-width, 0.5s;
+}
+.pane {
+	-fx-background-color: black;
+}
