@@ -6,7 +6,7 @@ import java.util.List;
 public interface SettingsLogic extends Model {
 
     public enum Difficulty {
-        EASY, INTERMIDIATE, HARD, VIETNAM
+        EASY, INTERMIDIATE, HARD, VIETNAM, RUSSIA
     }
     
     List<Difficulty> getListDifficulty();

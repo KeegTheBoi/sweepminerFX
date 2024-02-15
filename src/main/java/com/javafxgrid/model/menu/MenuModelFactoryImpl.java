@@ -30,7 +30,7 @@ public class MenuModelFactoryImpl implements MenuModelFactory {
 
         public SimpleMenuModel() {
             avaible = new ArrayList<>();
-            avaible.add(new MenuItem(Views.GRIDTEST, "PLAY"));
+            avaible.add(new MenuItem(Views.GAME, "PLAY"));
         }
 
         @Override

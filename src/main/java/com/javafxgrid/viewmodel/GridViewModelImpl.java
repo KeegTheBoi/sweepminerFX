@@ -2,7 +2,6 @@ package com.javafxgrid.viewmodel;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -24,9 +23,9 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
     private int size;
 
     public GridViewModelImpl(Level lev) {
-        this.size = lev.size();
         this.log = new LogicsImpl(lev.size(), lev.diffuculty());
         this.griMap = fillGrid(lev.size());
+        this.size = lev.size();
     }
 
     @Override
@@ -59,11 +58,6 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
     }
 
     @Override
-    public int size() {
-        return this.size;
-    }
-
-    @Override
     public void disableAndHit(StringProperty buttonID) {
         // this.getMatchingProp(buttonID).getValue().setValue(true);
         var f = Coord.fromString(buttonID.getValue());
@@ -73,15 +67,8 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
     }
 
     @Override
-    public BooleanProperty getDisableBooleanProperty(StringProperty buttonID) {
-        return this.getMatchingProp(buttonID).getValue();
-    }
-
-    private Pair<Coord, BooleanProperty> getMatchingProp(StringProperty str) {
-        return this.griMap.entrySet().stream()
-            .filter(y -> y.getKey().get().equals(str.getValue()))
-            .map(Map.Entry::getValue).findAny()
-            .orElse(new Pair<Coord,BooleanProperty>(null, null));
+    public int gridSize() {
+        return this.size;
     }
     
 }

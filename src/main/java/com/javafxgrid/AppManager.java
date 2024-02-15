@@ -2,6 +2,7 @@ package com.javafxgrid;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -38,11 +39,19 @@ public class AppManager extends Application implements ViewManager{
         scene = new Scene(roots.get(Views.MAIN).getKey());
         scene.getStylesheets().add(AppManager.class.getResource("style.css").toExternalForm());
         stage.setScene(scene);
+        
         stage.show();
-        // stage.minWidthProperty().bind(stage.widthProperty());
-        // stage.setMaxWidth(800);
-        // stage.setMaxWidth(630);
-        // stage.minHeightProperty().bind(stage.heightProperty());
+        
+        // stage.maxWidthProperty().bind(Bindings.when(stage.widthProperty().greaterThan(stage.heightProperty()))
+        //     .then(stage.heightProperty())
+        //     .otherwise(stage.heightProperty()));
+
+        
+            
+        stage.minWidthProperty().bind(stage.widthProperty().divide(2));
+        stage.setMaxHeight(650);
+        stage.maxWidthProperty().bind(stage.maxHeightProperty().subtract(60));
+        stage.minHeightProperty().bind(stage.heightProperty().divide(2));
         
         
     }
@@ -67,11 +76,11 @@ public class AppManager extends Application implements ViewManager{
             .map(this::loadInput).toList();
     }
 
-    private <C> Pair<Parent, C> loadInput(FXMLLoader loader) {
+    private Pair<Parent, Object> loadInput(FXMLLoader loader) {
         try  {
             Parent t = loader.load();
-            C y = loader.getController();
-            return new Pair<Parent,C>(t, y);
+            Object y = loader.getController();
+            return new Pair<Parent, Object>(t, y);
         } catch (IOException e) {
             Alert al = new Alert(AlertType.ERROR, e.getMessage());
             al.showAndWait();

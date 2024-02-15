@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="rootNode" alignment="TOP_CENTER" styleClass="pane" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafxgrid.view.GridView1">
+<VBox fx:id="rootNode" maxHeight="660" maxWidth="660" alignment="TOP_CENTER" styleClass="pane" stylesheets="@dashboard.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.javafxgrid.view.GameView">
    <children>
       <BorderPane fx:id="dashBoardPane" minWidth="320.0" prefWidth="320.0" VBox.vgrow="NEVER">
          <left>
@@ -34,6 +34,6 @@
             <Insets />
          </VBox.margin>
       </BorderPane>
-      <TilePane fx:id="board" prefHeight="300.0" prefWidth="300.0" />
+      <TilePane fx:id="board" prefHeight="300.0" prefWidth="300.0"/>
    </children>
 </VBox>

@@ -1,17 +1,11 @@
 package com.javafxgrid.view;
 
 import java.util.Comparator;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import com.javafxgrid.model.Coord;
 import com.javafxgrid.model.Level;
 import com.javafxgrid.viewmodel.GridViewModel;
 import com.javafxgrid.viewmodel.GridViewModelImpl;
 
-import javafx.beans.binding.StringBinding;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +15,8 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
-public class GridView1 implements View {
+public class GameView implements DynamicView {
+
 
     private static final int id = 3;
 
@@ -41,15 +36,21 @@ public class GridView1 implements View {
 
     private GridViewModel gridVM;
 
-    public GridView1() {}
+    private int size;
+
+    
+    public GameView() {}
+
 
     @FXML
     private void initialize() {}
 
-    public void startGame(Level lev) {
-        this.gridVM = new GridViewModelImpl(lev);
+    @Override
+    public <I> void start(I param) {
+        this.gridVM = new GridViewModelImpl((Level)param);
+        this.size = gridVM.gridSize();
         this.setConstrains();
-        System.out.println(board.heightProperty().divide(gridVM.size()).get() + " "+ board.widthProperty().divide(gridVM.size()).get());
+        System.out.println(board.heightProperty().divide(this.size).get() + " "+ board.widthProperty().divide(this.size).get());
         System.out.println(board.heightProperty().getValue() + " "+ board.widthProperty().getValue());
         gridVM.getGridMap()
             .entrySet()
@@ -74,8 +75,8 @@ public class GridView1 implements View {
     private void setConstrains() {
         
         board.getChildren().clear();
-        board.setPrefRows(gridVM.size());
-        board.setPrefSize(tileSize * gridVM.size(), tileSize * gridVM.size());
+        board.setPrefRows(this.size);
+        board.setPrefSize(tileSize * this.size, tileSize * this.size);
     }
 
     private long hash(int x, int y) {
@@ -90,8 +91,8 @@ public class GridView1 implements View {
 
     private void prepareGrid(Pair<Button, Pair<StringProperty, BooleanProperty>> cell) {
         Button btn = cell.getKey();
-        btn.prefHeightProperty().bind(rootNode.heightProperty().subtract(dashBoardPane.getHeight()).divide(gridVM.size()).subtract(1));
-        btn.prefWidthProperty().bind(rootNode.widthProperty().divide(gridVM.size()).subtract(1));
+        btn.prefHeightProperty().bind(rootNode.heightProperty().subtract(dashBoardPane.getHeight()).divide(this.size).subtract(1));
+        btn.prefWidthProperty().bind(rootNode.widthProperty().divide(this.size).subtract(0.8));
         btn.idProperty().bind(cell.getValue().getKey());
         btn.idProperty().addListener((ob, oldValue, newValue) -> {
             System.out.println("old value: ".concat(oldValue).concat(" new value: ".concat(newValue)));

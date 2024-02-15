@@ -1,5 +1,7 @@
 package com.javafxgrid.viewmodel.appmediators;
 
+import com.javafxgrid.view.View;
+
 public interface ViewManager {
 
     /**

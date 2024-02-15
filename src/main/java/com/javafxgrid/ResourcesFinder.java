@@ -13,7 +13,6 @@ public class ResourcesFinder {
     private static final List<String> fxmlFiles = List.of(
         "primary.fxml",
         "settings.fxml",
-        "secondary.fxml",
         "grid.fxml"
     );
 

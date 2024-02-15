@@ -16,10 +16,8 @@ public interface GridViewModel extends ViewModel, BackerViewModel {
 
     Optional<Boolean> isOver();
 
-    int size();
-
     void disableAndHit(StringProperty buttonID);
 
-    BooleanProperty getDisableBooleanProperty(StringProperty buttonID);
+    int gridSize();
     
 }

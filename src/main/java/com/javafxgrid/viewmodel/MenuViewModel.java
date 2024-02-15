@@ -4,7 +4,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import com.javafxgrid.model.menu.*;
-import com.javafxgrid.view.GridView1;
+import com.javafxgrid.view.DynamicView;
+import com.javafxgrid.view.GameView;
 import com.javafxgrid.viewmodel.appmediators.AbstractViewModel;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -32,9 +33,8 @@ public class MenuViewModel extends AbstractViewModel{
         var view = this.getAppManeger().switchView(Optional.of(viewId.get()).map(this::parse)
             .filter(v -> v >= 0)
             .orElseThrow(IllegalArgumentException::new));
-        if(view instanceof GridView1 grid) {
-            var y = settings.getLevel().getValue();
-            grid.startGame(y);
+        if(view instanceof GameView game) {
+            game.start(settings.getLevel().getValue());
         }
     }
 
