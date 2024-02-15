@@ -4,16 +4,18 @@ import java.util.Optional;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableStringValue;
 
 public interface Cell {
 
     Type getType();
 
-    BooleanProperty visibilityProprety();
+    ObservableBooleanValue visibilityObservable();
 
     Optional<Integer> getCount();
 
-    BooleanProperty isFlagged();
+    ObservableBooleanValue flaggedObservable();
 
     void reveal();
 

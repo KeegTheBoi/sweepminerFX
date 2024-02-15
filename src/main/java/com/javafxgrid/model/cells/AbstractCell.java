@@ -2,29 +2,30 @@ package com.javafxgrid.model.cells;
 import java.util.*;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
 
 public abstract class AbstractCell implements Cell{
 
     private BooleanProperty visibilityProp;
     protected BooleanProperty flagProp;
 
-    public AbstractCell(BooleanProperty status, BooleanProperty flagged) {
-        this.visibilityProp = status;
-        this.flagProp = flagged;
+    public AbstractCell(BooleanProperty statusProp, BooleanProperty flaggedProp) {
+        this.visibilityProp = statusProp;
+        this.flagProp = flaggedProp;
     }
 
     public abstract Type getType();
 
-    public BooleanProperty visibilityProprety() {
+    public ObservableBooleanValue visibilityObservable() {
         return visibilityProp;
     }
 
-    public BooleanProperty isFlagged() {
+    public ObservableBooleanValue flaggedObservable() {
         return this.flagProp;
     }
 
     public void reveal() {
-        this.visibilityProprety().setValue(true);
+        this.visibilityProp.setValue(true);
     }
 
     public void changeFlag() {

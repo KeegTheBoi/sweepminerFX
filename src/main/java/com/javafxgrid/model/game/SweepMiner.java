@@ -3,6 +3,8 @@ package com.javafxgrid.model.game;
 import com.javafxgrid.model.Coord;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableIntegerValue;
 
 public interface SweepMiner {
 
@@ -18,9 +20,9 @@ public interface SweepMiner {
 
     int hitCount();
 
-    BooleanProperty timerElapsed();
+    ObservableBooleanValue timerElapsedObservable();
 
-    SimpleIntegerProperty getCountProprety();
+    ObservableIntegerValue getTimerCountObservable();
 
     void startTimer();
 

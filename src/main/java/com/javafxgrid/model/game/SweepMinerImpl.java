@@ -11,6 +11,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableIntegerValue;
 
 import java.util.*;
 import java.util.stream.*;
@@ -19,6 +21,9 @@ import static java.util.function.Predicate.not;
 public class SweepMinerImpl implements SweepMiner{
     
     private static final long ONE_SECOND = 1000L;
+    private static final int SCALAR_INCREASE = 50;
+    private static final double ARC_SIN_INF_BOUND = -1.0;
+    private static final double ARC_SIN_SUP_BOUND = 1.0;
     private Board<Coord, Cell> board;
     private final CellFactory cf = new CellFactoryImpl();
     private Double limit;
@@ -34,6 +39,11 @@ public class SweepMinerImpl implements SweepMiner{
     public SweepMinerImpl(Board<Coord, Cell> board) {
         this.board = board;
         timThread = new Thread(timerTask());
+        this.timerElapsedProprety.bind(Bindings
+                .when(timerCount.isEqualTo(0))
+                .then(true)
+                .otherwise(false)
+            );
     }
 
 
@@ -50,6 +60,7 @@ public class SweepMinerImpl implements SweepMiner{
         System.out.println((int)Math.ceil(limit));
     }
 
+    @Override
     public void fillRemaining() {
         // alternative using iterable
         this.all().filter(c -> Objects.isNull(board.getCell(c)))
@@ -66,12 +77,14 @@ public class SweepMinerImpl implements SweepMiner{
             .filter(Objects::nonNull)
             .filter(CellsUtils::isBomb).count();
     }
-
+    
+    @Override
     public void unveil(Coord pos) {
         this.hitted++;
         board.getCell(pos).reveal();
     }
-
+    
+    @Override
     public void recursiveDiscoveryOf(Coord c) {
         
         System.out.println(c);
@@ -118,12 +131,10 @@ public class SweepMinerImpl implements SweepMiner{
         return c.x() >= 0 && c.y() < this.board.bound() && c.x() < this.board.bound() && c.y() >= 0; 
     }
 
-
     @Override
-    public BooleanProperty timerElapsed() {
+    public ObservableBooleanValue timerElapsedObservable() {
         return this.timerElapsedProprety;
     }
-
 
     @Override
     public void startTimer() {
@@ -138,42 +149,36 @@ public class SweepMinerImpl implements SweepMiner{
                 .peek(timerCount::set)
                 .takeWhile(i -> !this.interrupt)
                 .forEach(i -> sleepThread()); //should do a reduce 
-            
-            this.timerElapsedProprety.bind(Bindings
-                .when(timerCount.isEqualTo(0))
-                .then(true)
-                .otherwise(false)
-            );
+            //MUST DO IN INITIALIZATION
             
             System.out.println("OVER PROP -> " + timerElapsedProprety.get());
         };
         
     }
 
-
     private void sleepThread() {
         try {
             Thread.sleep(ONE_SECOND);
         } catch (InterruptedException e) {
             System.out.println("INTERRUPT");
-            this.interrupt = true;
         }
     }
 
     @Override
-    public SimpleIntegerProperty getCountProprety() {
+    public ObservableIntegerValue getTimerCountObservable() {
         return this.timerCount;
     }
 
 
     private int getDurationFromDifficulty() {
-        return this.bombsSize() * 50 + (int)Math.toDegrees(Math.asin(rand.nextDouble(-1, 1)));
+        return this.bombsSize() * SCALAR_INCREASE + 
+            (int)Math.toDegrees(Math.asin(rand.nextDouble(ARC_SIN_INF_BOUND, ARC_SIN_SUP_BOUND)));
     }
 
 
     @Override
     public void stopTimer() {
-        this.timThread.interrupt();
+        this.interrupt = true;
     }
 
     

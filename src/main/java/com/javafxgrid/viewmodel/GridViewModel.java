@@ -2,26 +2,35 @@ package com.javafxgrid.viewmodel;
 
 import java.util.Map;
 
-import com.javafxgrid.model.Coord;
+
 import com.javafxgrid.viewmodel.appmediators.BackerViewModel;
 
+import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
-import javafx.util.Pair;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableIntegerValue;
+import javafx.beans.value.ObservableStringValue;
 
 public interface GridViewModel extends ViewModel, BackerViewModel {
 
-    Map<StringProperty, Pair<Coord, BooleanProperty>> getGridMap();
+    static final String ID_SEPARATOR = ":";
 
-    void disableAndHit(StringProperty buttonID);
+    Map<Long, TileObservers> getGridMap();
+
+    void disableAndHit(ObservableStringValue buttonID);
 
     int gridSize();
 
-    IntegerProperty getThickProperty();
+    ObservableIntegerValue getThickObserver();
 
     void stopAllThreads();
 
-    void handleLeftClick(StringProperty stringProperty); 
+    void handleLeftClick(ObservableStringValue stringObservable); 
+
+    record TileObservers(ObservableStringValue idProp, ObservableBooleanValue disableProp){}
+
+    String retriveTag(ObservableStringValue embeddedString);
     
 }

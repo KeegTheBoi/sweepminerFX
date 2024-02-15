@@ -2,7 +2,6 @@ package com.javafxgrid;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,6 +24,7 @@ public class AppManager extends Application implements ViewManager{
     private static List<Pair<Parent, Object>> roots;
     private final Alert alert = new Alert(AlertType.NONE);
 
+    @SuppressWarnings("exports")
     @Override
     public void start(Stage primeStage) throws Exception {
         stage = primeStage;
@@ -38,6 +38,7 @@ public class AppManager extends Application implements ViewManager{
     public void setScene(String title) {
         roots = loadFXML();
         scene = new Scene(roots.get(Views.MAIN).getKey());
+        //COULD BE DONE ON FXML [SEPARATE UI WITH CODE]
         scene.getStylesheets().add(AppManager.class.getResource("style.css").toExternalForm());
         stage.setScene(scene);
         
@@ -104,7 +105,14 @@ public class AppManager extends Application implements ViewManager{
     @Override
     public void closeWithMessage(String header, String closingContent) {
         this.setAndShowAlert(AlertType.CONFIRMATION, "CLOSING", header, closingContent);
-        this.performReactiveAction(() -> this.alert.showAndWait().ifPresent(b -> this.exit()));
+        this.performReactiveAction(() -> this.alert.showAndWait().ifPresent(b -> {
+            if(b.equals(ButtonType.OK)) { //needed to prevent heavy dialog dispaly
+                this.close();
+            } else {
+                this.close();
+            }
+        }
+        ));
     }
 
     @Override

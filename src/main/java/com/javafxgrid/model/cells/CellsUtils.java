@@ -8,7 +8,7 @@ public class CellsUtils {
     }
 
     public static boolean isValuable(Cell c) {
-        return c.getCount().isPresent();
+        return c.getCount().isPresent(); //or c.getType == Type.GROUND
     }
 
     public static boolean isEmpty(Cell c) {
@@ -16,7 +16,6 @@ public class CellsUtils {
     }
 
     public static boolean isVeiled(Cell c) {
-        
-        return c.visibilityProprety().getValue() == false;
+        return c.visibilityObservable().getValue() == false;
     }
 }

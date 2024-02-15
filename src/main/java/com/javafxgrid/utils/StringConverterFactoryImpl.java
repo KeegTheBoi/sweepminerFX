@@ -6,6 +6,8 @@ import javafx.util.StringConverter;
 
 public class StringConverterFactoryImpl implements StringConverterFactory {
 
+    protected static final String SEPARATOR = ":";
+
     @Override
     public StringConverter<SettingsLogic.Difficulty> simpleDifficultyConverter() {
         return new StringConverter<SettingsLogic.Difficulty>() {
@@ -22,6 +24,7 @@ public class StringConverterFactoryImpl implements StringConverterFactory {
             
         };
     }
+
 
     
 }

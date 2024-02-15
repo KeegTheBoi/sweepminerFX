@@ -6,6 +6,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableStringValue;
 
 public class CellFactoryImpl implements CellFactory {
 
@@ -36,10 +38,10 @@ public class CellFactoryImpl implements CellFactory {
             this.description = description;
             this.tagName = new SimpleStringProperty();
             this.tagName.bind(Bindings
-                .when(this.visibilityProprety())
+                .when(this.visibilityObservable())
                 .then(tag)
                 .otherwise(Bindings
-                    .when(this.isFlagged())
+                    .when(this.flaggedObservable())
                     .then(FLAG_TAG)
                     .otherwise(EMPTY_TAG)
                 )
@@ -55,7 +57,7 @@ public class CellFactoryImpl implements CellFactory {
             return this.count;
         }
 
-        public StringProperty tagProprety() {
+        public ObservableStringValue tagProprety() {
             return this.tagName;
         }
 

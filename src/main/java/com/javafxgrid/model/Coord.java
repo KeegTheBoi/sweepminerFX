@@ -17,5 +17,10 @@ public record Coord(int x, int y)
             .takeWhile(u -> match.find()).map(u -> Integer.parseInt(match.group())).toList();
         return new Coord(coord.get(0), coord.get(1));
     }
+
+    public long hashIncremental() {
+        long comb = (long)y << 32 | (x & 0xFFFFFFFFL);
+        return comb >= 0 ? comb : -comb;
+    }
 }
 

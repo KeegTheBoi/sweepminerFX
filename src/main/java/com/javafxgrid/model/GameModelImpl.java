@@ -6,8 +6,9 @@ import com.javafxgrid.model.gameBoard.*;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableBooleanValue;
+import javafx.beans.value.ObservableIntegerValue;
 
 
 public class GameModelImpl implements GameModel {
@@ -16,7 +17,8 @@ public class GameModelImpl implements GameModel {
     private final Board<Coord, Cell> board;
     private final SweepMiner game;
     private static final BooleanProperty overPropety = new SimpleBooleanProperty();
-    private final IntegerProperty timerCountProprety;
+    private final ObservableIntegerValue timerCountObserver;
+    private final BooleanProperty winningProperty = new SimpleBooleanProperty();
 
     public GameModelImpl(int size, int bombNumber) {
         this.board = new BoardImpl<Coord, Cell>(size);
@@ -24,7 +26,7 @@ public class GameModelImpl implements GameModel {
         this.game.seedBombs(bombNumber);
         this.game.fillRemaining();
         this.game.startTimer();
-        this.timerCountProprety = this.game.getCountProprety();
+        this.timerCountObserver = this.game.getTimerCountObservable();
         overPropety.addListener((obs, oldValue, newVal) -> {
             this.game.stopTimer();
         });
@@ -34,21 +36,21 @@ public class GameModelImpl implements GameModel {
     public void hit(Coord pos) {
         this.current = pos;
         overPropety.set(CellsUtils.isBomb(board.getCell(pos)));
-        
         game.recursiveDiscoveryOf(current);   
+        winningProperty.set(board.size() - game.hitCount() == game.bombsSize());
     }
 
     @Override
-    public BooleanBinding overBinding() {
-        return overPropety.or(game.timerElapsed());
+    public BooleanBinding isOverBinding() {
+        return overPropety.or(game.timerElapsedObservable());
     }
 
     @Override
-    public boolean hasWon() {
+    public ObservableBooleanValue winningObservable() {
         System.out.println(game.hitCount());
         System.out.println(board.size());
         System.out.println(game.bombsSize());
-        return board.size() - game.hitCount() == game.bombsSize();
+        return winningProperty;
     }
 
     @Override
@@ -62,8 +64,8 @@ public class GameModelImpl implements GameModel {
     }
 
     @Override
-    public IntegerProperty secondsTickerProprety() {
-        return this.timerCountProprety;
+    public ObservableIntegerValue tickerObservable() {
+        return this.timerCountObserver;
     }
 
     @Override
