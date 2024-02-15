@@ -46,12 +46,10 @@ public class AppManager extends Application implements ViewManager{
         //     .then(stage.heightProperty())
         //     .otherwise(stage.heightProperty()));
 
+        stage.maxWidthProperty().bind(stage.heightProperty());
         
-            
-        stage.minWidthProperty().bind(stage.widthProperty().divide(2));
-        stage.setMaxHeight(650);
-        stage.maxWidthProperty().bind(stage.maxHeightProperty().subtract(60));
-        stage.minHeightProperty().bind(stage.heightProperty().divide(2));
+        stage.minWidthProperty().bind(stage.widthProperty());
+        stage.minHeightProperty().bind(stage.heightProperty());
         
         
     }

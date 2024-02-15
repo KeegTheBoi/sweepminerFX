@@ -14,8 +14,6 @@ public interface GridViewModel extends ViewModel, BackerViewModel {
 
     Map<StringProperty, Pair<Coord, BooleanProperty>> getGridMap();
 
-    Optional<Boolean> isOver();
-
     void disableAndHit(StringProperty buttonID);
 
     int gridSize();

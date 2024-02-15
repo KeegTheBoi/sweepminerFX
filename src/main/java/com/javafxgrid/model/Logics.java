@@ -2,11 +2,13 @@ package com.javafxgrid.model;
 
 import com.javafxgrid.model.cells.Cell;
 
+import javafx.beans.binding.BooleanBinding;
+
 public interface Logics {
 
     void hit(Coord pos);
 
-    boolean isOver();
+    BooleanBinding overBinding();
 
     boolean hasWon();
 

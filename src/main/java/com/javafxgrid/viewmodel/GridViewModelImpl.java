@@ -11,6 +11,7 @@ import com.javafxgrid.model.Logics;
 import com.javafxgrid.model.LogicsImpl;
 import com.javafxgrid.viewmodel.appmediators.AbstractBackerViewModel;
 
+import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.*;
 import javafx.util.Pair;
 
@@ -21,21 +22,21 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
 
     private final Logics log;
     private int size;
+    private BooleanProperty bindedOverProprety = new SimpleBooleanProperty();
 
     public GridViewModelImpl(Level lev) {
         this.log = new LogicsImpl(lev.size(), lev.diffuculty());
         this.griMap = fillGrid(lev.size());
         this.size = lev.size();
+        
+        log.overBinding().addListener((o, ol, ne) -> {
+            System.out.println("OVER");
+        });
     }
 
     @Override
     public Map<StringProperty, Pair<Coord, BooleanProperty>> getGridMap() {
         return this.griMap;
-    }
-
-    @Override
-    public Optional<Boolean> isOver() {
-        return Optional.of(log.isOver()).filter(t -> t).or(() -> Optional.of(log.hasWon()).filter(t -> t));
     }
 
     private Map<StringProperty, Pair<Coord, BooleanProperty>> fillGrid(int size) {
@@ -63,7 +64,7 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
         var f = Coord.fromString(buttonID.getValue());
         log.hit(f);
         log.hasWon();
-        isOver().ifPresent(y -> this.getAppManeger().closeWithMessage("Game is Over", "TODO SHOULD DECIDE WETHER YOU WON OR NOT"));
+        // overBinding().ifPresent(y -> this.getAppManeger().closeWithMessage("Game is Over", "TODO SHOULD DECIDE WETHER YOU WON OR NOT"));
     }
 
     @Override

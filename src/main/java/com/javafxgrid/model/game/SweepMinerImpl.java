@@ -7,6 +7,11 @@ import com.javafxgrid.model.cells.CellFactoryImpl;
 import com.javafxgrid.model.cells.CellsUtils;
 import com.javafxgrid.model.gameBoard.Board;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 import java.util.*;
 import java.util.stream.*;
 import static java.util.function.Predicate.not;
@@ -17,6 +22,7 @@ public class SweepMinerImpl implements SweepMiner{
     private final CellFactory cf = new CellFactoryImpl();
     private Double limit;
     private int hitted;
+    private SimpleBooleanProperty overPropety;
 
     public SweepMinerImpl(Board<Coord, Cell> board) {
         this.board = board;
@@ -62,7 +68,8 @@ public class SweepMinerImpl implements SweepMiner{
         
         System.out.println(c);
         unveil(c);
-        Optional.of(c).map(board::getCell).filter(CellsUtils::isEmpty).filter(e -> !this.isOver(c))
+        Optional.of(c).map(board::getCell).filter(CellsUtils::isEmpty)
+            .filter(e -> !CellsUtils.isBomb(e))
             .ifPresent(h -> this.adjaxOf(c).stream()
                 .map(board::getCell)
                 .filter(CellsUtils::isVeiled)
@@ -89,11 +96,6 @@ public class SweepMinerImpl implements SweepMiner{
     }
 
     @Override
-    public boolean isOver(Coord c) {
-        return CellsUtils.isBomb(board.getCell(c));
-    }
-
-    @Override
     public int hitCount() {
         return this.hitted;
     }
@@ -106,6 +108,19 @@ public class SweepMinerImpl implements SweepMiner{
 
     private boolean inBound(Coord c) {
         return c.x() >= 0 && c.y() < this.board.bound() && c.x() < this.board.bound() && c.y() >= 0; 
+    }
+
+
+    @Override
+    public BooleanProperty timerElapsed() {
+        return new SimpleBooleanProperty(false);
+    }
+
+
+    @Override
+    public void startTimer() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'startTimer'");
     }
 
 

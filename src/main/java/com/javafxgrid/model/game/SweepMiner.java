@@ -1,6 +1,7 @@
 package com.javafxgrid.model.game;
 
 import com.javafxgrid.model.Coord;
+import javafx.beans.property.BooleanProperty;
 
 public interface SweepMiner {
 
@@ -12,10 +13,12 @@ public interface SweepMiner {
 
     int bombsSize();
 
-    boolean isOver(Coord c);
-
     public void recursiveDiscoveryOf(Coord c);
 
     int hitCount();
+
+    BooleanProperty timerElapsed();
+
+    void startTimer();
 
 }

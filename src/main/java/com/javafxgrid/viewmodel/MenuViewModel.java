@@ -19,7 +19,7 @@ public class MenuViewModel extends AbstractViewModel{
     private static SettingsViewModel settings = new SettingViewModelImpl();
     
     public MenuViewModel() {
-        this.menu = new MenuModelFactoryImpl().configMenu();//SHOULD GET INFO FROM DATABASE
+        this.menu = new MenuModelFactoryImpl().simpleMenu();//SHOULD GET INFO FROM DATABASE
         listOfButtons = this.menu.menuList().stream()
             .map(m -> new Pair<>(String.valueOf(m.getId()), m.toString()))
             .collect(Collectors.toMap(t -> t.getKey(), t -> new SimpleStringProperty(t.getValue())));
