@@ -13,7 +13,7 @@ public interface Cell {
 
     Optional<Integer> getCount();
 
-    boolean isFlagged();
+    BooleanProperty isFlagged();
 
     void reveal();
 

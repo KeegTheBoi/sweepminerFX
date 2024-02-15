@@ -1,12 +1,12 @@
 package com.javafxgrid.viewmodel;
 
 import java.util.Map;
-import java.util.Optional;
 
 import com.javafxgrid.model.Coord;
 import com.javafxgrid.viewmodel.appmediators.BackerViewModel;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.util.Pair;
 
@@ -17,5 +17,11 @@ public interface GridViewModel extends ViewModel, BackerViewModel {
     void disableAndHit(StringProperty buttonID);
 
     int gridSize();
+
+    IntegerProperty getThickProperty();
+
+    void stopAllThreads();
+
+    void handleLeftClick(StringProperty stringProperty); 
     
 }

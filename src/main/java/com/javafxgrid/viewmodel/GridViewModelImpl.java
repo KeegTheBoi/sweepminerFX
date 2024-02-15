@@ -1,37 +1,38 @@
 package com.javafxgrid.viewmodel;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.javafxgrid.model.Coord;
 import com.javafxgrid.model.Level;
-import com.javafxgrid.model.Logics;
-import com.javafxgrid.model.LogicsImpl;
+import com.javafxgrid.model.GameModel;
+import com.javafxgrid.model.GameModelImpl;
 import com.javafxgrid.viewmodel.appmediators.AbstractBackerViewModel;
 
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.*;
 import javafx.util.Pair;
 
 public class GridViewModelImpl extends AbstractBackerViewModel implements GridViewModel{
 
     private Map<StringProperty, Pair<Coord,BooleanProperty>> griMap;
-    private BooleanProperty disablePropCellVisibility = new SimpleBooleanProperty(); 
+    private BooleanProperty disablePropCellVisibility;
+    private IntegerProperty thickTime; 
+    private BooleanProperty prop = new SimpleBooleanProperty();
 
-    private final Logics log;
+    private final GameModel gameLogic;
     private int size;
-    private BooleanProperty bindedOverProprety = new SimpleBooleanProperty();
 
     public GridViewModelImpl(Level lev) {
-        this.log = new LogicsImpl(lev.size(), lev.diffuculty());
+        this.gameLogic = new GameModelImpl(lev.size(), lev.diffuculty());
         this.griMap = fillGrid(lev.size());
         this.size = lev.size();
         
-        log.overBinding().addListener((o, ol, ne) -> {
-            System.out.println("OVER");
-        });
+        thickTime = this.gameLogic.secondsTickerProprety();
+        prop.bind(gameLogic.overBinding());
+        prop.addListener((o, ol, ne) -> 
+            this.getAppManeger().closeWithMessage("GAME IS OVER", "EITHER YOU WON OR LOSE")
+        );
     }
 
     @Override
@@ -45,12 +46,12 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
             ).collect(
                 Collectors.toMap(
                     c -> {
-                        StringProperty prop = new SimpleStringProperty();
-                        prop.bind(log.getResult(c).tagProprety().concat(":").concat(c.toString()));
-                        return prop;
+                        StringProperty idProprety = new SimpleStringProperty();
+                        idProprety.bind(gameLogic.getResult(c).tagProprety().concat(":").concat(c.toString()));
+                        return idProprety;
                     },
                     c -> {
-                        disablePropCellVisibility = log.getResult(c).visibilityProprety();
+                        disablePropCellVisibility = gameLogic.getResult(c).visibilityProprety();
                         return new Pair<>(c, disablePropCellVisibility);
                     }
                     
@@ -60,16 +61,29 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
 
     @Override
     public void disableAndHit(StringProperty buttonID) {
-        // this.getMatchingProp(buttonID).getValue().setValue(true);
-        var f = Coord.fromString(buttonID.getValue());
-        log.hit(f);
-        log.hasWon();
+        gameLogic.hit(Coord.fromString(buttonID.getValue()));
+        gameLogic.hasWon();
         // overBinding().ifPresent(y -> this.getAppManeger().closeWithMessage("Game is Over", "TODO SHOULD DECIDE WETHER YOU WON OR NOT"));
     }
 
     @Override
     public int gridSize() {
         return this.size;
+    }
+
+    @Override
+    public IntegerProperty getThickProperty() {
+        return this.thickTime;
+    }
+
+    @Override
+    public void stopAllThreads() {
+        this.gameLogic.close();
+    }
+
+    @Override
+    public void handleLeftClick(StringProperty buttonID) {
+        this.gameLogic.flag(Coord.fromString(buttonID.getValue()));
     }
     
 }

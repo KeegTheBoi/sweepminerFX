@@ -8,9 +8,9 @@ import com.javafxgrid.model.cells.CellsUtils;
 import com.javafxgrid.model.gameBoard.Board;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.*;
 import java.util.stream.*;
@@ -18,14 +18,22 @@ import static java.util.function.Predicate.not;
 
 public class SweepMinerImpl implements SweepMiner{
     
+    private static final long ONE_SECOND = 1000L;
     private Board<Coord, Cell> board;
     private final CellFactory cf = new CellFactoryImpl();
     private Double limit;
     private int hitted;
-    private SimpleBooleanProperty overPropety;
+    private SimpleBooleanProperty timerElapsedProprety = new SimpleBooleanProperty();
+    private SimpleIntegerProperty timerCount = new SimpleIntegerProperty(Integer.MAX_VALUE);
+
+
+    private Thread timThread;
+    private Random rand = new Random();
+    private boolean interrupt;
 
     public SweepMinerImpl(Board<Coord, Cell> board) {
         this.board = board;
+        timThread = new Thread(timerTask());
     }
 
 
@@ -113,16 +121,60 @@ public class SweepMinerImpl implements SweepMiner{
 
     @Override
     public BooleanProperty timerElapsed() {
-        return new SimpleBooleanProperty(false);
+        return this.timerElapsedProprety;
     }
 
 
     @Override
     public void startTimer() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'startTimer'");
+        timThread.start();
     }
 
+    //Not public cause updtaes may require a different approach
+    private Runnable timerTask() {
+        return () -> {
+            int seconds = getDurationFromDifficulty();
+            Stream.iterate(seconds, i -> i >= 0, i -> i - 1)
+                .peek(timerCount::set)
+                .takeWhile(i -> !this.interrupt)
+                .forEach(i -> sleepThread()); //should do a reduce 
+            
+            this.timerElapsedProprety.bind(Bindings
+                .when(timerCount.isEqualTo(0))
+                .then(true)
+                .otherwise(false)
+            );
+            
+            System.out.println("OVER PROP -> " + timerElapsedProprety.get());
+        };
+        
+    }
+
+
+    private void sleepThread() {
+        try {
+            Thread.sleep(ONE_SECOND);
+        } catch (InterruptedException e) {
+            System.out.println("INTERRUPT");
+            this.interrupt = true;
+        }
+    }
+
+    @Override
+    public SimpleIntegerProperty getCountProprety() {
+        return this.timerCount;
+    }
+
+
+    private int getDurationFromDifficulty() {
+        return this.bombsSize() * 50 + (int)Math.toDegrees(Math.asin(rand.nextDouble(-1, 1)));
+    }
+
+
+    @Override
+    public void stopTimer() {
+        this.timThread.interrupt();
+    }
 
     
 }

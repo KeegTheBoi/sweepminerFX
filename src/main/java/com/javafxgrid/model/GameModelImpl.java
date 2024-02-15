@@ -6,22 +6,28 @@ import com.javafxgrid.model.gameBoard.*;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 
-public class LogicsImpl implements Logics {
+public class GameModelImpl implements GameModel {
 
     private Coord current;
     private final Board<Coord, Cell> board;
     private final SweepMiner game;
     private static final BooleanProperty overPropety = new SimpleBooleanProperty();
+    private final IntegerProperty timerCountProprety;
 
-    public LogicsImpl(int size, int bombNumber) {
+    public GameModelImpl(int size, int bombNumber) {
         this.board = new BoardImpl<Coord, Cell>(size);
         this.game = new SweepMinerImpl(board);
         this.game.seedBombs(bombNumber);
         this.game.fillRemaining();
-        // this.game.startTimer();
+        this.game.startTimer();
+        this.timerCountProprety = this.game.getCountProprety();
+        overPropety.addListener((obs, oldValue, newVal) -> {
+            this.game.stopTimer();
+        });
     }
 
     @Override
@@ -29,8 +35,7 @@ public class LogicsImpl implements Logics {
         this.current = pos;
         overPropety.set(CellsUtils.isBomb(board.getCell(pos)));
         
-        game.recursiveDiscoveryOf(current);
-        
+        game.recursiveDiscoveryOf(current);   
     }
 
     @Override
@@ -54,6 +59,16 @@ public class LogicsImpl implements Logics {
     @Override
     public Cell getResult(Coord c) {
         return board.getCell(c);
+    }
+
+    @Override
+    public IntegerProperty secondsTickerProprety() {
+        return this.timerCountProprety;
+    }
+
+    @Override
+    public void close() {
+        this.game.stopTimer();
     }
 
 }

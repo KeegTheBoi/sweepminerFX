@@ -5,21 +5,22 @@ import javafx.beans.property.BooleanProperty;
 
 public abstract class AbstractCell implements Cell{
 
-    private BooleanProperty visibility;
-    protected boolean flag;
+    private BooleanProperty visibilityProp;
+    protected BooleanProperty flagProp;
 
-    public AbstractCell(BooleanProperty status) {
-        this.visibility = status;
+    public AbstractCell(BooleanProperty status, BooleanProperty flagged) {
+        this.visibilityProp = status;
+        this.flagProp = flagged;
     }
 
     public abstract Type getType();
 
     public BooleanProperty visibilityProprety() {
-        return visibility;
+        return visibilityProp;
     }
 
-    public boolean isFlagged() {
-        return this.flag;
+    public BooleanProperty isFlagged() {
+        return this.flagProp;
     }
 
     public void reveal() {
@@ -27,7 +28,7 @@ public abstract class AbstractCell implements Cell{
     }
 
     public void changeFlag() {
-        this.flag = !this.flag;
+        this.flagProp.set(!this.flagProp.getValue());
     }
 
     public abstract Optional<Integer> getCount();

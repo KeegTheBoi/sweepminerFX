@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -46,10 +47,10 @@ public class AppManager extends Application implements ViewManager{
         //     .then(stage.heightProperty())
         //     .otherwise(stage.heightProperty()));
 
-        stage.maxWidthProperty().bind(stage.heightProperty());
+        // stage.maxWidthProperty().bind(stage.heightProperty());
         
-        stage.minWidthProperty().bind(stage.widthProperty());
-        stage.minHeightProperty().bind(stage.heightProperty());
+        // stage.minWidthProperty().bind(stage.widthProperty());
+        // stage.minHeightProperty().bind(stage.heightProperty());
         
         
     }
@@ -90,6 +91,7 @@ public class AppManager extends Application implements ViewManager{
     @Override
     public void displayMessage(String title, String header, String content) {
         this.setAndShowAlert(AlertType.INFORMATION, title, header, content);
+        this.performReactiveAction(this.alert::showAndWait);
     }
 
     private void setAndShowAlert(AlertType alertType, String title, String header, String content) {
@@ -97,13 +99,12 @@ public class AppManager extends Application implements ViewManager{
         this.alert.setTitle(title);
         this.alert.setHeaderText(header);
         this.alert.setContentText(content);
-        this.alert.showAndWait();
     }
 
     @Override
     public void closeWithMessage(String header, String closingContent) {
         this.setAndShowAlert(AlertType.CONFIRMATION, "CLOSING", header, closingContent);
-        this.close();
+        this.performReactiveAction(() -> this.alert.showAndWait().ifPresent(b -> this.exit()));
     }
 
     @Override

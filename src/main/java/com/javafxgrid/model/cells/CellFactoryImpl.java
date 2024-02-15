@@ -9,7 +9,8 @@ import javafx.beans.property.StringProperty;
 
 public class CellFactoryImpl implements CellFactory {
 
-    public static final String EMPTY_TAG = "empty"; 
+    public static final String EMPTY_TAG = "empty";
+    public static final String FLAG_TAG = "flag"; 
 
     @Override
     public Cell mine() {
@@ -29,7 +30,7 @@ public class CellFactoryImpl implements CellFactory {
         private String description;
 
         private CellImpl(Type t, Optional<Integer> count, String tag, String description) {
-            super(new SimpleBooleanProperty(false));
+            super(new SimpleBooleanProperty(false), new SimpleBooleanProperty(false));
             this.type = t;
             this.count = count;
             this.description = description;
@@ -37,7 +38,11 @@ public class CellFactoryImpl implements CellFactory {
             this.tagName.bind(Bindings
                 .when(this.visibilityProprety())
                 .then(tag)
-                .otherwise(EMPTY_TAG)
+                .otherwise(Bindings
+                    .when(this.isFlagged())
+                    .then(FLAG_TAG)
+                    .otherwise(EMPTY_TAG)
+                )
             );
         }
         @Override
