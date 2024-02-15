@@ -21,11 +21,12 @@ import javafx.util.Pair;
 
 public class GridViewModelImpl extends AbstractBackerViewModel implements GridViewModel{
 
-    private TreeMap<Long, TileObservers> griMap;
-    private ObservableIntegerValue thickTime; 
+    private final TreeMap<Long, TileObservers> griMap;
+    private final ObservableIntegerValue thickTime; 
+    private final BooleanProperty overBinderProp = new SimpleBooleanProperty();
 
     private final GameModel gameLogic;
-    private int size;
+    private final int size;
 
     public GridViewModelImpl(Level lev) {
         this.gameLogic = new GameModelImpl(4, 0);
@@ -33,12 +34,12 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
         this.size = lev.size();
         
         thickTime = this.gameLogic.tickerObservable();
-        ObservableBooleanValue prop = gameLogic.isOverBinding();
-        ObservableBooleanValue win = gameLogic.winningObservable();
-        win.addListener((obs, old, newV) -> {
+        this.overBinderProp.bind(gameLogic.isOverBinding());
+        ObservableBooleanValue winObserver = gameLogic.winningObservable();
+        winObserver.addListener((obs, old, newV) -> {
             this.getAppManeger().closeWithMessage("FANTASTIC, YOU WON", "JEZZ, YOU MADE IT ON THIS SILLY MODE MAN");
         });
-        prop.addListener((o, ol, ne) -> 
+        overBinderProp.addListener((obs, old, newV) -> 
             this.getAppManeger().closeWithMessage("GAME IS OVER", "NOT BAD, LUCK IS YOUR WORST ENEMY I BET")
         );
     }
@@ -50,7 +51,8 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
 
     private TreeMap<Long, TileObservers> fillGrid(int size) {
         return new TreeMap<>(IntStream.range(0, size).boxed().flatMap(
-            i -> IntStream.range(0, size).mapToObj(j -> new Coord(j, i))
+                i -> IntStream.range(0, size)
+                    .mapToObj(j -> new Coord(j, i))
             )
             .map(c -> new Pair<>(c, gameLogic.getResult(c)))
             .collect(
@@ -96,9 +98,9 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
     }
 
     private TileObservers maptoEmbbeddedTileId(Pair<Coord, Cell> pair) {
-        ObservableBooleanValue disablePropCellVisibility = pair.getValue().visibilityObservable();
-        ObservableStringValue idProprety = this.buildStringExpression(pair.getValue().tagProprety(), ID_SEPARATOR, pair.getKey().toString());                        
-        return new TileObservers(idProprety, disablePropCellVisibility);
+        ObservableBooleanValue disableObsCellVisibility = pair.getValue().visibilityObservable();
+        ObservableStringValue idObserver = this.buildStringExpression(pair.getValue().tagProprety(), ID_SEPARATOR, pair.getKey().toString());                        
+        return new TileObservers(idObserver, disableObsCellVisibility);
     }
     
 }

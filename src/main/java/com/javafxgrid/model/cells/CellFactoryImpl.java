@@ -57,7 +57,7 @@ public class CellFactoryImpl implements CellFactory {
             return this.count;
         }
 
-        public ObservableStringValue tagProprety() {
+        public StringProperty tagProprety() {
             return this.tagName;
         }
 
