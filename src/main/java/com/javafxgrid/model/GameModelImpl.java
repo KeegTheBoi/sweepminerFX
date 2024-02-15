@@ -37,7 +37,7 @@ public class GameModelImpl implements GameModel {
         this.current = pos;
         overPropety.set(CellsUtils.isBomb(board.getCell(pos)));
         game.recursiveDiscoveryOf(current);   
-        winningProperty.set(board.size() - game.hitCount() == game.bombsSize());
+        winningProperty.set(board.size() - game.hitCount() == game.getBombSize());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class GameModelImpl implements GameModel {
     public ObservableBooleanValue winningObservable() {
         System.out.println(game.hitCount());
         System.out.println(board.size());
-        System.out.println(game.bombsSize());
+        System.out.println(game.getBombSize());
         return winningProperty;
     }
 

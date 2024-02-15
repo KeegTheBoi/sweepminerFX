@@ -8,7 +8,6 @@ import com.javafxgrid.model.cells.CellsUtils;
 import com.javafxgrid.model.gameBoard.Board;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableBooleanValue;
@@ -68,7 +67,7 @@ public class SweepMinerImpl implements SweepMiner{
     }
 
     @Override
-    public int bombsSize() {
+    public int getBombSize() {
         return (int)Math.ceil(limit);
     }
 
@@ -171,7 +170,7 @@ public class SweepMinerImpl implements SweepMiner{
 
 
     private int getDurationFromDifficulty() {
-        return this.bombsSize() * SCALAR_INCREASE + 
+        return this.getBombSize() * SCALAR_INCREASE + 
             (int)Math.toDegrees(Math.asin(rand.nextDouble(ARC_SIN_INF_BOUND, ARC_SIN_SUP_BOUND)));
     }
 
