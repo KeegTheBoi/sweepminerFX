@@ -1,0 +1,93 @@
+.root {
+	-fx-background-color: black;
+}
+
+.content {
+	-fx-background-color: rgb(19, 19, 19);
+}
+
+.list-view {
+	-fx-background-color: rgb(73, 73, 73);
+}
+
+.sized-img {
+	-fx-fit-width: 100;
+	-fx-fit-height: 100;
+}
+
+.button {
+    -fx-background-color: transparent;
+    -fx-text-fill: magenta;
+    -fx-font-size: 12px;
+    -fx-background-radius: 11px;
+    -fx-border-width: 2px;
+    -fx-border-color: transparent;
+}
+
+.button:focused {
+    -fx-border-color: rgb(0, 255, 0);
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgb(0, 255, 0), 20, 0, 0, 0);
+    -fx-transition: -fx-border-color 0.5s, -fx-border-width, 0.5s;
+}
+
+.button:hover{
+    -fx-cursor:hand;
+    -fx-effect: dropshadow(three-pass-box, magenta, 20, 0, 0, 0);
+    -fx-transition: -fx-border-color 0.5s, -fx-border-width, 0.5s;
+}
+
+.label {
+	-fx-text-fill: cyan;
+}
+
+.mine {
+    -fx-image: url("images/mine.png");
+}
+
+.flag {
+    -fx-image: url("images/flag.png");
+}
+
+.empty {
+    -fx-image: url("images/empty.png");
+}
+
+._0 {
+    -fx-image: url("images/_0.png");
+}
+
+._1 {
+    -fx-image: url("images/_1.png");
+}
+
+._2 {
+    -fx-image: url("images/_2.png");
+}
+
+._3 {
+    -fx-image: url("images/_3.png");
+}
+
+._4 {
+    -fx-image: url("images/_4.png");
+}
+
+
+._5 {
+    -fx-image: url("images/_5.png");
+}
+
+._6 {
+    -fx-image: url("images/_6.png");
+}
+
+._7 {
+    -fx-image: url("images/_7.png");
+}
+
+._8 {
+    -fx-image: url("images/_8.png");
+}
+

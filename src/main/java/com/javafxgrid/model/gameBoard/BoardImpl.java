@@ -4,7 +4,7 @@ import java.util.*;
 
 public class BoardImpl<P, C> implements Board<P, C> {
 
-    private int size;
+    private final int size;
     private final Map<P, C> boardMap;
 
     public BoardImpl(int size) {

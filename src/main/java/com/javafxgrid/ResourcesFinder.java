@@ -13,7 +13,8 @@ public class ResourcesFinder {
     private static final List<String> fxmlFiles = List.of(
         "primary.fxml",
         "settings.fxml",
-        "grid.fxml"
+        "grid.fxml",
+        "guide.fxml"
     );
 
     private static final List<String> imagesStreams = List.of(

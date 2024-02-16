@@ -2,10 +2,8 @@ package com.javafxgrid.model.menu;
 
 
 public class MenuItem {
-    private int id;
-    private String description;
-
-    
+    private final int id;
+    private final String description;
 
     public MenuItem(int id, String description) {
         this.id = id;

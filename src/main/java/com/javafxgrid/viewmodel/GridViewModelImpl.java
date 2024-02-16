@@ -100,6 +100,7 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
     private TileObservers maptoEmbbeddedTileId(Pair<Coord, Cell> pair) {
         ObservableBooleanValue disableObsCellVisibility = pair.getValue().visibilityObservable();
         ObservableStringValue idObserver = this.buildStringExpression(pair.getValue().tagProprety(), ID_SEPARATOR, pair.getKey().toString());                        
+        
         return new TileObservers(idObserver, disableObsCellVisibility);
     }
     

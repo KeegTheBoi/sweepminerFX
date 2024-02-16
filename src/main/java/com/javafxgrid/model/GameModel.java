@@ -3,7 +3,6 @@ package com.javafxgrid.model;
 import com.javafxgrid.model.cells.Cell;
 
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableIntegerValue;
 

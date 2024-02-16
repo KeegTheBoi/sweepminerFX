@@ -1,5 +1,6 @@
 package com.javafxgrid.model.cells;
 
+import java.util.function.*;
 
 public class CellsUtils {
     
@@ -17,5 +18,9 @@ public class CellsUtils {
 
     public static boolean isVeiled(Cell c) {
         return c.visibilityObservable().getValue() == false;
+    }
+
+    public static Function<Integer, String> groundMapper() {
+        return x -> CellFactoryImpl.GROUND_PREFIX.concat(String.valueOf(x));
     }
 }

@@ -9,7 +9,7 @@ import javafx.beans.value.ObservableStringValue;
 
 public interface GridViewModel extends ViewModel, BackerViewModel {
 
-    static final String ID_SEPARATOR = ":";
+    static final String ID_SEPARATOR = ":"; //TODO should put it on an interface
 
     Map<Long, TileObservers> getGridMap();
 

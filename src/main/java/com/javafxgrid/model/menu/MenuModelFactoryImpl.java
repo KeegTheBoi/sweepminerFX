@@ -20,8 +20,7 @@ public class MenuModelFactoryImpl implements MenuModelFactory {
 
     @Override
     public MenuModel guidedMenu() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'guidedMenu'");
+        return new GuidedMenuModel(configMenu());
     }
 
     private class SimpleMenuModel implements MenuModel {
@@ -68,6 +67,20 @@ public class MenuModelFactoryImpl implements MenuModelFactory {
         public SettingsMenuModel(MenuModel decorated) {
             super(decorated);
             this.decorated.menuList().add(new MenuItem(Views.SETTINGS, "SETTINGS"));
+        }
+
+        @Override
+        public List<MenuItem> menuList() {
+            return this.decorated.menuList();
+        }
+        
+    }
+
+    private class GuidedMenuModel extends DecoratedMenu {
+
+        public GuidedMenuModel(MenuModel decorated) {
+            super(decorated);
+            this.decorated.menuList().add(new MenuItem(Views.GUIDE, "GUIDE"));
         }
 
         @Override
