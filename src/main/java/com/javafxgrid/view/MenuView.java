@@ -1,7 +1,7 @@
 package com.javafxgrid.view;
 
 
-import com.javafxgrid.viewmodel.MenuViewModel;
+import com.javafxgrid.viewmodel.api.MenuViewModel;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;

@@ -5,6 +5,8 @@ import java.util.stream.*;
 
 import com.javafxgrid.model.cells.CellFactory;
 import com.javafxgrid.model.cells.CellFactoryImpl;
+import com.javafxgrid.viewmodel.api.GuideViewModel;
+import com.javafxgrid.viewmodel.appmediators.AbstractCodedViewModel;
 
 import javafx.beans.binding.StringExpression;
 import javafx.beans.property.SimpleStringProperty;

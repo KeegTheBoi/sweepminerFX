@@ -10,6 +10,7 @@ import com.javafxgrid.model.Level;
 import com.javafxgrid.model.cells.Cell;
 import com.javafxgrid.model.GameModel;
 import com.javafxgrid.model.GameModelImpl;
+import com.javafxgrid.viewmodel.api.GridViewModel;
 import com.javafxgrid.viewmodel.appmediators.AbstractBackerViewModel;
 
 import javafx.beans.binding.StringExpression;
@@ -29,19 +30,14 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
     private final int size;
 
     public GridViewModelImpl(Level lev) {
-        this.gameLogic = new GameModelImpl(4, 0);
+        this.gameLogic = new GameModelImpl(lev.size(), lev.diffuculty());
         this.griMap = fillGrid(lev.size());
         this.size = lev.size();
         
         thickTime = this.gameLogic.tickerObservable();
         this.overBinderProp.bind(gameLogic.isOverBinding());
         ObservableBooleanValue winObserver = gameLogic.winningObservable();
-        winObserver.addListener((obs, old, newV) -> {
-            this.getAppManeger().closeWithMessage("FANTASTIC, YOU WON", "JEZZ, YOU MADE IT ON THIS SILLY MODE MAN");
-        });
-        overBinderProp.addListener((obs, old, newV) -> 
-            this.getAppManeger().closeWithMessage("GAME IS OVER", "NOT BAD, LUCK IS YOUR WORST ENEMY I BET")
-        );
+        this.addEndListeners(winObserver, overBinderProp);
     }
 
     @Override
@@ -66,7 +62,6 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
     @Override
     public void disableAndHit(ObservableStringValue buttonID) {
         gameLogic.hit(Coord.fromString(buttonID.getValue()));
-        // overBinding().ifPresent(y -> this.getAppManeger().closeWithMessage("Game is Over", "TODO SHOULD DECIDE WETHER YOU WON OR NOT"));
     }
 
     @Override
@@ -102,6 +97,16 @@ public class GridViewModelImpl extends AbstractBackerViewModel implements GridVi
         ObservableStringValue idObserver = this.buildStringExpression(pair.getValue().tagProprety(), ID_SEPARATOR, pair.getKey().toString());                        
         
         return new TileObservers(idObserver, disableObsCellVisibility);
+    }
+
+    private void addEndListeners(ObservableBooleanValue winObserver, BooleanProperty overBinderProps) {
+        this.addListener(winObserver, "FANTASTIC, YOU WON", "JEZZ, YOU MADE IT ON THIS SILLY MODE MAN");
+        this.addListener(overBinderProps, "GAME IS OVER", "NOT BAD, LUCK IS YOUR WORST ENEMY I BET");
+        
+    }
+
+    private void addListener(ObservableBooleanValue endProp, String header, String content) {
+        endProp.addListener((obs, old, newV) -> this.getAppManeger().closeWithMessage(header, content));
     }
     
 }

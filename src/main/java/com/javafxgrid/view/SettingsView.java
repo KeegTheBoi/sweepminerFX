@@ -2,7 +2,7 @@ package com.javafxgrid.view;
 
 import com.javafxgrid.model.SettingsLogic.Difficulty;
 import com.javafxgrid.viewmodel.SettingViewModelImpl;
-import com.javafxgrid.viewmodel.SettingsViewModel;
+import com.javafxgrid.viewmodel.api.SettingsViewModel;
 
 import java.util.*;
 

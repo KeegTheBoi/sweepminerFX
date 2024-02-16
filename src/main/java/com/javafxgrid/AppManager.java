@@ -107,9 +107,9 @@ public class AppManager extends Application implements ViewManager{
         this.setAndShowAlert(AlertType.CONFIRMATION, "CLOSING", header, closingContent);
         this.performReactiveAction(() -> this.alert.showAndWait().ifPresent(b -> {
             if(b.equals(ButtonType.OK)) { //needed to prevent heavy dialog dispaly
-                this.close();
+                this.exit();
             } else {
-                this.close();
+                this.exit();
             }
         }
         ));

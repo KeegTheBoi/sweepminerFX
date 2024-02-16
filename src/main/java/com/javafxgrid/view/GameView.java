@@ -2,9 +2,9 @@ package com.javafxgrid.view;
 
 import com.javafxgrid.model.Level;
 import com.javafxgrid.utils.StringManipulators;
-import com.javafxgrid.viewmodel.GridViewModel;
 import com.javafxgrid.viewmodel.GridViewModelImpl;
-import com.javafxgrid.viewmodel.GridViewModel.TileObservers;
+import com.javafxgrid.viewmodel.api.GridViewModel;
+import com.javafxgrid.viewmodel.api.GridViewModel.TileObservers;
 
 import javafx.beans.value.ObservableStringValue;
 import javafx.fxml.FXML;

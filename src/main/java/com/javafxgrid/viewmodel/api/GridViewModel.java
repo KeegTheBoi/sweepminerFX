@@ -1,6 +1,8 @@
-package com.javafxgrid.viewmodel;
+package com.javafxgrid.viewmodel.api;
 
 import java.util.Map;
+
+import com.javafxgrid.viewmodel.ViewModel;
 import com.javafxgrid.viewmodel.appmediators.BackerViewModel;
 
 import javafx.beans.value.ObservableBooleanValue;

@@ -1,7 +1,6 @@
 package com.javafxgrid.utils;
 
 import javafx.beans.binding.StringExpression;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableStringValue;
 
 import java.util.*;

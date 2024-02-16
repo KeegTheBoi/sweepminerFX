@@ -7,6 +7,7 @@ import com.javafxgrid.model.SettingsModel;
 import com.javafxgrid.model.SettingsLogic.Difficulty;
 import com.javafxgrid.utils.StringConverterFactory;
 import com.javafxgrid.utils.StringConverterFactoryImpl;
+import com.javafxgrid.viewmodel.api.SettingsViewModel;
 import com.javafxgrid.viewmodel.appmediators.AbstractBackerViewModel;
 
 import javafx.beans.property.*;

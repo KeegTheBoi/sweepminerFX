@@ -1,4 +1,5 @@
 package com.javafxgrid.model;
+
 import com.javafxgrid.model.cells.Cell;
 import com.javafxgrid.model.cells.CellsUtils;
 import com.javafxgrid.model.game.*;
@@ -10,6 +11,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.beans.value.ObservableIntegerValue;
 
+import java.util.Optional;
+import java.util.Objects;
 
 public class GameModelImpl implements GameModel {
 
@@ -47,9 +50,6 @@ public class GameModelImpl implements GameModel {
 
     @Override
     public ObservableBooleanValue winningObservable() {
-        System.out.println(game.hitCount());
-        System.out.println(board.size());
-        System.out.println(game.getBombSize());
         return winningProperty;
     }
 
@@ -60,7 +60,14 @@ public class GameModelImpl implements GameModel {
 
     @Override
     public Cell getResult(Coord c) {
-        return board.getCell(c);
+        return Optional.of(c)   
+            .map(board::getCell)
+            .filter(Objects::nonNull)
+            .orElseThrow(
+                () -> new IllegalStateException(
+                    "Couldn't find any cell in the board, maybe cell value it's too big"
+                )
+            );
     }
 
     @Override

@@ -1,13 +1,12 @@
-package com.javafxgrid.viewmodel;
+package com.javafxgrid.viewmodel.api;
 
-import javafx.beans.binding.StringExpression;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableStringValue;
-import javafx.util.Pair;
 
 import java.util.List;
 
+import com.javafxgrid.viewmodel.ViewModel;
 import com.javafxgrid.viewmodel.appmediators.BackerViewModel;
+import com.javafxgrid.viewmodel.appmediators.CodedViewModel;
 
 public interface GuideViewModel extends ViewModel, BackerViewModel, CodedViewModel{
 

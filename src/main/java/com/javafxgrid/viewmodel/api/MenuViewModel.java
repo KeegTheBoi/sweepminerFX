@@ -1,10 +1,11 @@
-package com.javafxgrid.viewmodel;
+package com.javafxgrid.viewmodel.api;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import com.javafxgrid.model.menu.*;
 import com.javafxgrid.view.GameView;
+import com.javafxgrid.viewmodel.SettingViewModelImpl;
 import com.javafxgrid.viewmodel.appmediators.AbstractViewModel;
 
 import javafx.beans.property.SimpleStringProperty;

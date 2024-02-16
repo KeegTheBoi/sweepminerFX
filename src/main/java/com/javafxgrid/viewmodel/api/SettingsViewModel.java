@@ -1,8 +1,9 @@
-package com.javafxgrid.viewmodel;
+package com.javafxgrid.viewmodel.api;
 
 
 import com.javafxgrid.model.Level;
 import com.javafxgrid.model.SettingsLogic.Difficulty;
+import com.javafxgrid.viewmodel.ViewModel;
 import com.javafxgrid.viewmodel.appmediators.BackerViewModel;
 
 import javafx.beans.property.Property;
